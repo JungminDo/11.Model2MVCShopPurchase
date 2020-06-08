@@ -44,6 +44,7 @@
 			self.location = "/product/listProduct?menu=manage"
 				});
 				
+			
 			 $( "button" ).on("click" , function() {
 						//Debug..
 						//alert(  $( "td.ct_btn01:contains('¼öÁ¤')" ).html() );
