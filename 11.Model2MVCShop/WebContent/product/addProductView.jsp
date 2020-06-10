@@ -18,6 +18,12 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
        body > div.container{
@@ -47,11 +53,24 @@
 		});	
 	
 		
+		
+		
+		
+		 $( function() {
+			    $( "#manuDate" ).datepicker({
+			      showButtonPanel: true,
+			      dateFormat: 'yymmdd'
+			    });
+			  } );
+		
+		
+		
+		
 		function fncAddProduct() {
 			
 			var name = $("input[name='prodName']").val();
 			var detail = $("input[name='prodDetail']").val();
-			var manuDate = $("input[name='manuDate']").val();
+			var manuDate = $("input[name='manuDate']").val().replace(/\//gi, "");
 			var price = $("input[name='price']").val();
 			
 			
@@ -73,6 +92,8 @@
 			}
 			
 
+			
+			
 		/* 	document.detailForm.action='/addProduct.do';
 			document.detailForm.submit(); */
 			
@@ -103,7 +124,8 @@
 		<h1 class="bg-primary text-center">상품등록</h1>
 		
 		<!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal">
+		<form enctype="multipart/form-data" class="form-horizontal">
+
 		
 		  <div class="form-group">
 		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">상품명</label>
@@ -123,9 +145,12 @@
 		  <div class="form-group">
 		    <label for="manuDate" class="col-sm-offset-1 col-sm-3 control-label">제조일자</label>
 		    <div class="col-sm-4">
-		      <input type="manuDate" class="form-control" id="manuDate" name="manuDate" placeholder="상품제조일자">
+		      <input type="text" class="form-control" id="manuDate" name="manuDate" placeholder="상품제조일자" readonly>
+		     
 		    </div>
 		  </div>
+		  
+		
 		  
 		  <div class="form-group">
 		    <label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
@@ -136,10 +161,10 @@
 		    </div>
 		  </div>
 		  
-		  <div class="form-group">
+		  <div class="form-group" >
 		    <label for="fileName" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
 		    <div class="col-sm-4">
-		      <input type="file" class="form-control" id="fileName" name="fileName" placeholder="상품이미지">
+		      <input type="file" class="form-control" id="fileName" name="fileName" placeholder="상품이미지" >
 		    </div>
 		  </div>
 		  
@@ -155,7 +180,7 @@
 		
  	</div>
 	<!--  화면구성 div end /////////////////////////////////////-->
-	
+
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 
@@ -41,14 +41,23 @@
 		$("a[href='#' ]").on("click" , function() {
 					//Debug..
 					//alert(  $( "td.ct_btn01:contains('확인')" ).html() );
-			self.location = "/product/listProduct?menu=manage"
+			
+					
+					
+					self.location = "/product/listProduct?menu=manage"
 				});
 				
 			
 			 $( "button" ).on("click" , function() {
 						//Debug..
 						//alert(  $( "td.ct_btn01:contains('수정')" ).html() );
+						if(${param.menu=='manage'}){
 						self.location = "/product/updateProductView?prodNo=${product.prodNo}"
+			 }else{
+				 
+						 self.location = "/purchase/addPurchaseView?prodNo=${product.prodNo}"
+					 
+			 }
 					});
 			});
 	</script>
@@ -119,14 +128,19 @@
 		<hr/>
 		
 		<div class="form-group">
-	  		<div class="col-md-12 text-center ">
-	  			<button type="button" class="btn btn-primary">상품정보수정</button>
+	  		<div class="col-md-12 text-center " >	
+	  			<c:if test="${param.menu=='manage'}">
+	  			<button type="button" class="btn btn-primary" value ="${param.menu=='manage'}">상품정보수정</button>
+	  			</c:if>
+	  				<c:if test="${param.menu=='search'}">
+	  				<button type="button" class="btn btn-primary" value ="${param.menu=='search'}">상품구매</button>
+					</c:if>
 	  			 <a class="btn btn-primary btn" href="#" role="button">상품리스트</a>
+				
 					    </div>
 		</div>
 		
 	<br/>
-	
 		
  	</div>
  	<!--  화면구성 div Start /////////////////////////////////////-->

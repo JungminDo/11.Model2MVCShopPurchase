@@ -138,10 +138,10 @@
 		    </div>
 		  </div>
 		  
-		  <div class="form-group">
+		  <div class="form-group" >
 		    <label for="fileName" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
 		    <div class="col-sm-4">
-		      <input type="file" class="form-control" id="fileName" name="fileName" placeholder="상품이미지">
+		      <input type="file" class="form-control" id="fileName" name="fileName" placeholder="상품이미지" >
 		    </div>
 		  </div>
 		  

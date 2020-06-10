@@ -50,7 +50,7 @@
 		/* 	document.getElementById("currentPage").value = currentPage;
 		   	document.detailForm.submit();	 */	
 		   	$("#currentPage").val(currentPage)
-		   	$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=${param.menu}").submit();
+		   	$("form").attr("method" , "POST").attr("action" , "/purchase/listPurchase?menu=${param.menu}").submit();
 		}
 	
 	
@@ -72,7 +72,7 @@
 				
 				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 				$( "td:nth-child(2)" ).on("click" , function() {
-			 	self.location ="/product/getProduct?prodNo="+$(this).children("#pdNo").val()+"&menu=<c:out value="${param.menu}" />";
+			 	self.location ="/purchase/getPurchase?prodNo="+$(this).children("#pdNo").val()+"&menu=<c:out value="${param.menu}" />";
 					 
 				});
 							
@@ -87,7 +87,7 @@
 		//==> userId LINK Event 연결처리
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 3 과 1 방법 조합 : $(".className tagName:filter함수") 사용함.
-		 	$( "td:nth-child(5) > i" ).on("click" , function() {
+		 	$( "td:nth-child(7) > i" ).on("click" , function() {
 					//Debug..
 					//alert($(this).children("#pdNo").val());
 				/*  self.location="/product/getProduct?prodNo="+$(this).text().trim()+"&menu="+$("input[type='hidden'][name='menu']").val(); */
@@ -95,10 +95,10 @@
 		 
 			
 		 	//var prodNo = $(this).children("#prodNo").val();
-			var prodNo = $(this).next().val();
+			var userId = $(this).next().val();
 		 	$.ajax( 
 					{
-						url : "/product/json/getProduct/"+prodNo ,
+						url : "/user/json/getUser/"+userId ,
 						method : "GET" ,
 						dataType : "json" ,
 						headers : {
@@ -114,17 +114,15 @@
 							//alert("JSONData : \n"+JSONData);
 							
 							var displayValue = "<h6>"
-														+"상품번호 : "+JSONData.prodNo+"<br/>"
-														+"상품명 : "+JSONData.prodName+"<br/>"
-														+"상품이미지 "+JSONData.fileName+"<br/>"
-														+"가격 : "+JSONData.price+"<br/>"
-														+"등록일 : "+JSONData.regDate+"<br/>"
-														+"</h6>";
-							//Debug...									
-							//alert(displayValue);
+								+"아이디 : "+JSONData.userId+"<br/>"
+								+"이  름 : "+JSONData.userName+"<br/>"
+								+"이메일 : "+JSONData.email+"<br/>"
+								+"사용자 : "+JSONData.role+"<br/>"
+								+"등록일 : "+JSONData.regDate+"<br/>"
+								+"</h6>";
 							$("h6").remove();
-							$( "#"+prodNo+"" ).html(displayValue);
-						}
+							$( "#"+userId+"" ).html(displayValue);
+					}
 				});
 		 	});
 		
@@ -151,22 +149,15 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<div class="page-header text-info">
-		<c:if test="${param.menu=='manage'}">
-	       <h3>상품관리</h3>
-	       </c:if>
-	       <c:if test="${param.menu=='search'}">
-	       <h3>상품목록조회</h3>
-	       </c:if>
+
+	    
+	    <div class="page-header text-info">
+		<%-- <c:if test="${param.menu=='search'}"> --%>
+	       <h3>상품구매목록</h3>
+	      <%--  </c:if> --%>
 	    </div>
 	    
-	 <!--    <div class="page-header text-info">
-		<c:if test="${param.menu=='search'}">
-	       <h3>상품목록조회</h3>
-	       </c:if>
-	    </div>
 	    
-	    --> 
 	    
 	    
 	    
@@ -184,9 +175,9 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>상품번호</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>상품명</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>상품가격</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>사용자ID</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>사용자이름</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>번호</option>
 					</select>
 				  </div>
 				  
@@ -213,41 +204,43 @@
       
         <thead>
           <tr>
-            <th align="left">No</th>
-            <th align="left" >상품명</th>
-            <th align="left">가격</th>
-            <th align="left">등록일</th>
-            <th align="left">현재상태</th>
+            <th align="center">No</th>
+            <th align="left" >사용자ID</th>
+            <th align="left">사용자이름</th>
+            <th align="left">전화번호</th>
+            <th align="left">배송상태</th>
+            <th align="left">재고상태</th>
+            <th align="left">만족도</th>
           </tr>
         </thead>
        
 		<tbody>
 		
 		  <c:set var="i" value="0" />
-		  <c:forEach var="product" items="${list}">
+		  <c:forEach var="purchase" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
-			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 상품정보 확인">
-			  <c:if test="${param.menu=='manage'}">
-			  ${product.prodName}
-				<input id="pdNo" type="hidden" value="${product.prodNo }"/>
-				</c:if>
+			  <td align="center" >${ i }</td>
+			  <td align="left"  title="Click : 사용자정보 확인">
+			 
 				
-				<c:if test="${param.menu=='search' && product.proTranCode!='0'}">
-				${product.prodName}
-				<input id="pdNo" type="hidden" value="${product.prodNo }"/>
-				</c:if>
 				
-				<c:if test="${param.menu=='search' && product.proTranCode=='0'}">
-				${product.prodName}
-				 <input id="pdNo" type="hidden" value="${product.prodNo }"/>
+				<c:if test="${param.menu=='search'}">
+				${user.userId}
+				<%--  <input id="pdNo" type="hidden" value="${product.prodNo }"/> --%>
 				</c:if>
 			</td>	
-			  <td align="left">${product.price}</td>
-			  <td align="left">${product.regDate}</td>
+			  <td align="left">${purchase.receiverName}</td>
+			  <td align="left">${purchase.receiverPhone}</td>
 			  <td align="left">
+			  <c:if test="${!empty purchase.tranCode}"> </c:if>
+			<c:if test="${(purchase.tranCode)=='0'}"> 현재 구매전 입니다. </c:if>
+			<c:if test="${(purchase.tranCode)=='1'}"> 현재 구매완료 입니다. </c:if>
+			<c:if test="${(purchase.tranCode)=='2'}"> 현재 배송 중 입니다. </c:if>
+			<c:if test="${(purchase.tranCode)=='3'}"> 현재 배송완료 입니다. </c:if>
 			  
+			  
+
 			  	<c:choose>
 			<c:when test="${product.proTranCode=='0'}">
 				판매중
@@ -255,7 +248,7 @@
 			
 			<c:when test="${param.menu=='manage'}">
 				<c:if test="${product.proTranCode=='1  '}">
-					구매완료 <a href="/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
+					구매완료 <a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
 				</c:if>
 				<c:if test="${product.proTranCode=='2  '}">
 					배송중
@@ -278,14 +271,16 @@
 			</c:when>
 			
 			<c:otherwise>
-				재고없음
-			</c:otherwise>	
+			<td>	재고없음    </td>
+			</c:otherwise>
+			
 		</c:choose>
-		
-			  	<i class="glyphicon glyphicon-ok" id= "${product.prodNo}"></i>
-			  	<input type="hidden" value="${product.prodNo}">
+		<td> 최고입니다.
+			  	<i class="glyphicon glyphicon-ok" id= "${user.userId}"></i>
+			  	<input type="hidden" value="${user.userId}">
 			  	
-			  </td>
+			 </td>
+		
 			</tr>
           </c:forEach>
         
