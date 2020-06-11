@@ -97,7 +97,7 @@
 		/* 	document.detailForm.action='/addProduct.do';
 			document.detailForm.submit(); */
 			
-			$("form").attr("method" , "POST").attr("action" , "/product/addProduct").submit();
+			$("form").attr("method" , "POST").attr("enctype","multipart/form-data").attr("action" , "/product/addProduct").submit();
 		}
 
 	
@@ -124,7 +124,7 @@
 		<h1 class="bg-primary text-center">상품등록</h1>
 		
 		<!-- form Start /////////////////////////////////////-->
-		<form enctype="multipart/form-data" class="form-horizontal">
+		<form class="form-horizontal">
 
 		
 		  <div class="form-group">

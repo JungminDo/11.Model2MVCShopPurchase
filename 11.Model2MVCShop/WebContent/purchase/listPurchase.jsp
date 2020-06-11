@@ -72,7 +72,7 @@
 				
 				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 				$( "td:nth-child(2)" ).on("click" , function() {
-			 	self.location ="/purchase/getPurchase?prodNo="+$(this).children("#pdNo").val()+"&menu=<c:out value="${param.menu}" />";
+					$(self.location).attr("href","/user/getUser?userId=${sessionScope.user.userId}");
 					 
 				});
 							
@@ -81,8 +81,7 @@
 				
 			});	
 		
-		
-		
+
 		 $(function() {
 		//==> userId LINK Event 연결처리
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -210,25 +209,21 @@
             <th align="left">전화번호</th>
             <th align="left">배송상태</th>
             <th align="left">재고상태</th>
-            <th align="left">만족도</th>
+            <th align="left">사용자정보</th>
           </tr>
         </thead>
        
 		<tbody>
 		
-		  <c:set var="i" value="0" />
+		  <c:set var="i" value="0" />s
 		  <c:forEach var="purchase" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center" >${ i }</td>
 			  <td align="left"  title="Click : 사용자정보 확인">
 			 
-				
-				
-				<c:if test="${param.menu=='search'}">
 				${user.userId}
-				<%--  <input id="pdNo" type="hidden" value="${product.prodNo }"/> --%>
-				</c:if>
+				
 			</td>	
 			  <td align="left">${purchase.receiverName}</td>
 			  <td align="left">${purchase.receiverPhone}</td>
@@ -248,7 +243,9 @@
 			
 			<c:when test="${param.menu=='manage'}">
 				<c:if test="${product.proTranCode=='1  '}">
-					구매완료 <a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
+					<!-- 구매완료 <a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
+					 -->
+					 배송하기
 				</c:if>
 				<c:if test="${product.proTranCode=='2  '}">
 					배송중
@@ -275,7 +272,7 @@
 			</c:otherwise>
 			
 		</c:choose>
-		<td> 최고입니다.
+		<td> 사용자정보
 			  	<i class="glyphicon glyphicon-ok" id= "${user.userId}"></i>
 			  	<input type="hidden" value="${user.userId}">
 			  	

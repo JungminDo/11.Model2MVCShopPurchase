@@ -20,6 +20,11 @@
 	
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
        body > div.container{
@@ -57,7 +62,7 @@
 			var receiverName = $("input[name='receiverName']").val();
 			var receiverPhone = $("input[name='receiverPhone']").val();	
 			var divyAddr = $("input[name='divyAddr']").val();
-			
+			var receiverRequest = $("input[name='receiverRequest']").val();
 			
 			
 		
@@ -66,19 +71,29 @@
 				return;
 		}
 			
-			
-/* 		var value = "";	
-		if( $("input:text[name='phone2']").val() != ""  &&  $("input:text[name='phone3']").val() != "") {
-			var value = $("option:selected").val() + "-" 
-								+ $("input[name='phone2']").val() + "-" 
-								+ $("input[name='phone3']").val();
+			/*
+		var value = "";	
+		if( $("input:text[name='divyAddr']").val() != ""  &&  $("input:text[name='postcode']").val() != "") {
+			var value = $("input[name='postcode']").val() +  
+								+ $("input[name='divyAddr']").val() + 
+								+ $("input[name='divyAddr_detail']").val();
 		}
 
-		$("input:hidden[name='phone']").val( value ); */
+		$("input:hidden[name='divyAddr']").val( value );  */
 		
 		
 			$("form").attr("method" , "POST").attr("action" , "/purchase/addPurchase").submit();
 		}
+		
+		
+		 $( function() {
+			    $( "#divyDate" ).datepicker({
+			      showButtonPanel: true,
+			      dateFormat: 'yymmdd'
+			    });
+			  } );
+		
+		
 		
 function execDaumPostcode() {
 			
@@ -164,7 +179,7 @@ function execDaumPostcode() {
 		  <div class="form-group">
 		    <label for="prodNo" class="col-sm-offset-1 col-sm-3 control-label">상품번호</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodNo" name="prodNo" value ="${product.prodNo}" readonly >
+		      <input type="text" class="form-control"  value ="${product.prodNo}" readonly >
 		  	<!-- <span id="helpBlock" class="help-block"></span> --> 
 		    </div>
 		   
@@ -172,7 +187,7 @@ function execDaumPostcode() {
 		   <div class="form-group">
 		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">상품명</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodName" name="prodName" placeholder="${product.prodName}" readonly >
+		      <input type="text" class="form-control"  placeholder="${product.prodName}" readonly >
 		
 		    </div>
 		   
@@ -180,7 +195,7 @@ function execDaumPostcode() {
 		   <div class="form-group">
 		    <label for="prodDetail" class="col-sm-offset-1 col-sm-3 control-label">상품상세정보</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodDetail" name="prodDetail" placeholder="${product.prodDetail}" readonly >
+		      <input type="text" class="form-control" placeholder="${product.prodDetail}" readonly >
 		
 		    </div>
 		   
@@ -188,7 +203,7 @@ function execDaumPostcode() {
 		   <div class="form-group">
 		    <label for="manuDate" class="col-sm-offset-1 col-sm-3 control-label">제조일자</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="manuDate" name="manuDate" placeholder="${product.manuDate}" readonly >
+		      <input type="text" class="form-control"  placeholder="${product.manuDate}" readonly >
 		
 		    </div>
 		   
@@ -197,7 +212,7 @@ function execDaumPostcode() {
 		    <div class="form-group">
 		    <label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="price" name="price" value="${product.price}" readonly >
+		      <input type="text" class="form-control"  value="${product.price}" readonly >
 	
 		    </div>
 		   
@@ -206,7 +221,7 @@ function execDaumPostcode() {
 		  <div class="form-group">
 		    <label for="regDate" class="col-sm-offset-1 col-sm-3 control-label">등록일</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="regDate" name="regDate" value="${product.regDate}" readonly >
+		      <input type="text" class="form-control"  value="${product.regDate}" readonly >
 		
 		    </div>
 		   
@@ -215,7 +230,7 @@ function execDaumPostcode() {
 		  <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">구매자아이디</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="userId" name="userId" placeholder="${user.userId}" readonly >
+		      <input type="text" class="form-control"  placeholder="${user.userId}" readonly >
 		  	
 		    </div>
 		   
@@ -248,7 +263,7 @@ function execDaumPostcode() {
 		  </div> 
 		  
 		  
-		   <div class="form-group">
+	<!-- 	   <div class="form-group">
 		    <label for="receiverPhone" class="col-sm-offset-1 col-sm-3 control-label">휴대전화번호</label>
 		     <div class="col-sm-2">
 		      <select class="form-control" name="receiverPhone" id="receiverPhone">
@@ -268,7 +283,7 @@ function execDaumPostcode() {
 		    <input type="hidden" name="receiverPhone"  />
 		  </div>
 		
-		  
+		   -->
 		  
 		  
 		  <div class="form-group">
@@ -285,6 +300,26 @@ function execDaumPostcode() {
 		       <input type="text" class="form-control" id="divyAddr_detail" name="divyAddr_detail" placeholder="상세주소">
 		    </div>
 		    </div>
+		    
+		     <div class="form-group">
+		    <label for="receiverRequest" class="col-sm-offset-1 col-sm-3 control-label">구매요정사항</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="receiverRequest" name="receiverRequest" placeholder="요청사항">	
+		    </div>
+		  </div> 
+		    
+		   
+		    
+		  <div class="form-group">
+		    <label for="divyDate" class="col-sm-offset-1 col-sm-3 control-label">배송희망일</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="divyDate" name="divyDate" placeholder="배송희망일" readonly>
+		     
+		    </div>
+		  </div>
+		    
+		    
+		    
 		    </div>
 		    
 		 

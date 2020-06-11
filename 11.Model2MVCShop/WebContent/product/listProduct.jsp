@@ -254,9 +254,21 @@
 			</c:when>
 			
 			<c:when test="${param.menu=='manage'}">
-				<c:if test="${product.proTranCode=='1  '}">
-					구매완료 <a href="/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
+				<c:if test="${product.proTranCode=='1'}">
+					구매완료 <a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
 				</c:if>
+			</c:when>
+			
+			
+			
+			<c:when test="${product.proTranCode=='1'}">
+				구매완료
+			</c:when>
+			
+			
+			
+			<c:when test="${param.menu=='manage'}">
+				
 				<c:if test="${product.proTranCode=='2  '}">
 					배송중
 				</c:if>
@@ -264,6 +276,8 @@
 					배송완료
 				</c:if>			
 			</c:when>
+			
+			
 			
 			<c:when test="${param.menu=='search' && user.role=='admin'}">
 				<c:if test="${product.proTranCode=='1  '}">

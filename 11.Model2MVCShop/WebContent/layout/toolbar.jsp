@@ -151,6 +151,12 @@
 			 		$(self.location).attr("href","/product/listProduct?menu=search");
 				}); 
 			 });
+	 	 
+	 	$("a:contains('구매이력조회')").on("click" , function() {
+			
+	 		$(self.location).attr("href","/purchase/listPurchase");
+		}); 
+	
 			
 			//=============  판매상품관리 Event  처리 =============	
 		 	$( "a:contains('최근본상품')" ).on("click" , function() {

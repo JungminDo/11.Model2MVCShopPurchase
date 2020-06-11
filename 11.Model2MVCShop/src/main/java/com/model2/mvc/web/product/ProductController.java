@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
@@ -66,7 +67,7 @@ public class ProductController {
 
 		return "redirect:/product/addProduct.jsp";
 	}
-
+/*
 	@RequestMapping(value = "addProduct", method = RequestMethod.POST)
 	public String addProduct(@ModelAttribute("product") Product product) throws Exception {
 
@@ -75,7 +76,47 @@ public class ProductController {
 
 		return "forward:/product/addProduct.jsp";
 	}
-
+*/
+	@RequestMapping(value="addProduct", method=RequestMethod.POST)
+	public String addProduct(@ModelAttribute("product") Product product, @RequestParam(value="file", required = false) MultipartFile mf , HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		System.out.println("/product/addProduct : POST");
+		
+		if(mf != null) {
+			System.out.println("fileName : "+ mf); //이게 위에서 멀티파일로 가져온 파일이름
+			System.out.println(product);
+			
+			//이게 파일 넣을 위치 C 밑에 프로젝트 밑에 웹텐츠 밑에 이미지파일 밑에 업로드파일 안에 넣는다는 뜻
+			String savePath = "C:\\workspace\\11.Model2MVCShopPurchasego\\WebContent\\images\\";
+			
+			String originalFileName = mf.getOriginalFilename();
+			long fileSize = mf.getSize(); //파일 크기
+			String safeFile = savePath+originalFileName; //파일 넣을 위치랑 파일 이름
+			
+			System.out.println("originalFileName : "+originalFileName); //이게 파일본래 이름
+			System.out.println("fileSize : "+fileSize);
+			System.out.println("safeFile : "+safeFile);
+			
+				
+			try {
+				mf.transferTo(new File(safeFile)); //이게 파일 넣는거
+			} catch(IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			product.setFileName(originalFileName);
+		
+		}
+		productService.addProduct(product);
+		
+		
+		
+		return "forward:/product/addProduct.jsp";
+	}
+	
+	
 	@RequestMapping(value = "getProduct", method = RequestMethod.GET)
 	public String getProduct(Product product, Model model) throws Exception {
 

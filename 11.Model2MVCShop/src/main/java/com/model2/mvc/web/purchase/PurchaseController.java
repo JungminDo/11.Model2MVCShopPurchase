@@ -69,7 +69,7 @@ public class PurchaseController {
 	
 		return modelAndView;
 	}
-	
+	/*
 	@RequestMapping(value = "addPurchase")
 	public ModelAndView addPurchase(Product product, String buyerId, Purchase purchase, HttpSession session ) throws Exception{
 		
@@ -82,6 +82,33 @@ public class PurchaseController {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		purchaseService.addPurchase(purchase);
+		modelAndView.setViewName("/purchase/addPurchase.jsp");
+		modelAndView.addObject("purchase", purchase);
+	
+		
+		return modelAndView;
+		
+	}
+	*/
+	
+	@RequestMapping(value = "addPurchase")
+	public ModelAndView addPurchase(Purchase purchase, HttpSession session, Product product ) throws Exception{
+		
+		System.out.println("/purchase/addPurchase");
+		
+	
+		ModelAndView modelAndView = new ModelAndView();
+		
+		String userId = ((User)session.getAttribute("user")).getUserId();
+		User user = userService.getUser(userId);
+		
+		Product getProduct = productService.getProduct(product.getProdNo());
+	
+
+		modelAndView.addObject("product", getProduct);
+		modelAndView.addObject("user", user);
+
+		 //purchaseService.addPurchase(purchase);
 		modelAndView.setViewName("/purchase/addPurchase.jsp");
 		modelAndView.addObject("purchase", purchase);
 	
