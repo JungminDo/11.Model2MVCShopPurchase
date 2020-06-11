@@ -87,7 +87,7 @@ public class ProductController {
 			System.out.println(product);
 			
 			//이게 파일 넣을 위치 C 밑에 프로젝트 밑에 웹텐츠 밑에 이미지파일 밑에 업로드파일 안에 넣는다는 뜻
-			String savePath = "C:\\workspace\\11.Model2MVCShopPurchasego\\WebContent\\images\\";
+			String savePath = "C:\\Users\\JM-Do\\git\\11.Model2MVCShopPurchase\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\";
 			
 			String originalFileName = mf.getOriginalFilename();
 			long fileSize = mf.getSize(); //파일 크기
